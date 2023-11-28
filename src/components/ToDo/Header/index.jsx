@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./style.module.css";
 
-export default function Header({ toDo, setToDo }) {
+export default function Header({ toDo, setToDo, setError }) {
   const [inputValue, setInputValue] = useState('');
   return (
     <>
@@ -18,8 +18,12 @@ export default function Header({ toDo, setToDo }) {
         <button
           className={styles.addButton}
           onClick={(e) => {
-            inputValue ? 
-            setToDo([...toDo, { title: inputValue, status: false }]) : setToDo([...toDo]);
+            if (inputValue.trim()) {
+              setToDo([...toDo, { title: inputValue, status: false }]);
+            } else {
+              setError('The text must not be empty.')
+              setToDo([...toDo])
+            }
             setInputValue('')
           }}
         >
